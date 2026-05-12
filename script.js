@@ -1,14 +1,110 @@
 const totalPages = 17;
 let currentPage = 1;
-const img = document.getElementById('pageImage');
-const num = document.getElementById('pageNumber');
+let isAnimating = false;
+
+const leftImage = document.getElementById('leftPageImage');
+const rightImage = document.getElementById('rightPageImage');
+const flipFront = document.getElementById('flipFrontImage');
+const flipBack = document.getElementById('flipBackImage');
+const flippingPage = document.getElementById('flippingPage');
+const spreadCount = document.getElementById('spreadCount');
 const book = document.getElementById('book');
-const dots = document.getElementById('dots');
-function src(n){return `assets/story/page-${String(n).padStart(2,'0')}.webp`}
-function render(){book.classList.remove('turn');void book.offsetWidth;book.classList.add('turn');img.src=src(currentPage);num.textContent=`${currentPage} / ${totalPages}`;[...dots.children].forEach((d,i)=>d.classList.toggle('active',i+1===currentPage));}
-for(let i=1;i<=totalPages;i++){const b=document.createElement('button');b.ariaLabel=`გვერდი ${i}`;b.onclick=()=>{currentPage=i;render()};dots.appendChild(b)}
-document.getElementById('prev').onclick=()=>{currentPage=currentPage===1?totalPages:currentPage-1;render()};
-document.getElementById('next').onclick=()=>{currentPage=currentPage===totalPages?1:currentPage+1;render()};
-document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')document.getElementById('prev').click();if(e.key==='ArrowRight')document.getElementById('next').click();});
-let sx=0;book.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});book.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)(dx<0?document.getElementById('next'):document.getElementById('prev')).click();});
-render();
+
+function src(n) {
+  const page = Math.max(1, Math.min(totalPages, n));
+  return `assets/story/page-${String(page).padStart(2, '0')}.webp`;
+}
+
+function updateStaticPages() {
+  const leftPage = currentPage;
+  const rightPage = Math.min(currentPage + 1, totalPages);
+
+  if (window.innerWidth <= 800) {
+    rightImage.src = src(currentPage);
+    spreadCount.textContent = `გვერდი ${currentPage} / ${totalPages}`;
+  } else {
+    leftImage.src = src(leftPage);
+    rightImage.src = src(rightPage);
+    spreadCount.textContent = `${leftPage}–${rightPage} / ${totalPages}`;
+  }
+}
+
+function animate(direction) {
+  if (isAnimating) return;
+  isAnimating = true;
+
+  if (window.innerWidth <= 800) {
+    currentPage = direction === 'next'
+      ? (currentPage >= totalPages ? 1 : currentPage + 1)
+      : (currentPage <= 1 ? totalPages : currentPage - 1);
+    updateStaticPages();
+    isAnimating = false;
+    return;
+  }
+
+  const currentRight = Math.min(currentPage + 1, totalPages);
+  const nextLeft = direction === 'next'
+    ? (currentPage + 2 > totalPages ? 1 : currentPage + 2)
+    : (currentPage - 2 < 1 ? Math.max(1, totalPages - 1) : currentPage - 2);
+
+  flipFront.src = src(currentRight);
+  flipBack.src = src(nextLeft);
+
+  flippingPage.classList.remove('turn-next', 'turn-prev', 'active');
+  void flippingPage.offsetWidth;
+  flippingPage.classList.add('active', direction === 'next' ? 'turn-next' : 'turn-prev');
+
+  setTimeout(() => {
+    if (direction === 'next') {
+      currentPage += 2;
+      if (currentPage > totalPages) currentPage = 1;
+    } else {
+      currentPage -= 2;
+      if (currentPage < 1) currentPage = Math.max(1, totalPages - 1);
+    }
+
+    updateStaticPages();
+    flippingPage.classList.remove('turn-next', 'turn-prev', 'active');
+    isAnimating = false;
+  }, 950);
+}
+
+function next() { animate('next'); }
+function prev() { animate('prev'); }
+
+const bind = (id, fn) => document.getElementById(id).addEventListener('click', fn);
+
+bind('next', next);
+bind('prev', prev);
+bind('nextBottom', next);
+bind('prevBottom', prev);
+document.getElementById('firstPage').addEventListener('click', () => {
+  if (isAnimating) return;
+  currentPage = 1;
+  updateStaticPages();
+});
+document.getElementById('lastPage').addEventListener('click', () => {
+  if (isAnimating) return;
+  currentPage = Math.max(1, totalPages - 1);
+  updateStaticPages();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') next();
+  if (e.key === 'ArrowLeft') prev();
+});
+
+let startX = 0;
+book.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+}, { passive: true });
+book.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 50) {
+    if (dx < 0) next();
+    else prev();
+  }
+});
+
+window.addEventListener('resize', updateStaticPages);
+updateStaticPages();
