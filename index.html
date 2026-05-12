@@ -9,34 +9,105 @@
 </head>
 <body>
   <header class="hero">
-    <nav class="nav"><div class="brand">ზღაპარიყო</div><a href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">Facebook</a></nav>
+    <nav class="nav">
+      <div class="brand">ზღაპარიყო</div>
+      <a href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">Facebook</a>
+    </nav>
     <div class="hero-grid">
       <section>
         <p class="eyebrow">პერსონალიზირებული საბავშვო ზღაპრები</p>
         <h1>ზღაპარი, სადაც მთავარი გმირი თქვენი შვილია ✨</h1>
         <p class="lead">ვქმნით ბავშვის სახელზე, გარეგნობაზე და საყვარელ სამყაროზე მორგებულ ილუსტრირებულ ზღაპარს.</p>
-        <div class="actions"><a class="btn primary" href="#sample">გადაფურცლე ნიმუში</a><a class="btn" href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">შეკვეთა Facebook-ზე</a></div>
+        <div class="actions">
+          <a class="btn primary" href="#sample">გადაფურცლე ნიმუში</a>
+          <a class="btn" href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">შეკვეთა Facebook-ზე</a>
+        </div>
       </section>
-      <aside class="price-card"><span>ფასი</span><strong>59₾</strong><p>პერსონალიზირებული ზღაპარი</p><hr><strong>89₾</strong><p>ზღაპარი + გასაფერადებელი + კალენდარი + ფლომასტერები</p></aside>
+      <aside class="price-card">
+        <span>ფასი</span>
+        <strong>59₾</strong>
+        <p>პერსონალიზირებული ზღაპარი</p>
+        <hr>
+        <strong>89₾</strong>
+        <p>ზღაპარი + გასაფერადებელი + კალენდარი + ფლომასტერები</p>
+      </aside>
     </div>
   </header>
+
   <main>
     <section id="sample" class="section">
-      <div class="section-title"><p class="eyebrow">სრული ნიმუში</p><h2>გადაფურცლე ზღაპარი</h2><p>დააჭირე მარჯვნივ/მარცხნივ ან გამოიყენე ღილაკები.</p></div>
-      <div class="book-wrap">
-        <button class="arrow left" id="prev" aria-label="წინა გვერდი">‹</button>
-        <div class="book" id="book"><img id="pageImage" src="assets/story/page-01.webp" alt="ზღაპრის გვერდი"><div class="page-number" id="pageNumber">1 / 17</div></div>
-        <button class="arrow right" id="next" aria-label="შემდეგი გვერდი">›</button>
+      <div class="section-title">
+        <p class="eyebrow">სრული ნიმუში</p>
+        <h2>გადაფურცლე ზღაპარი</h2>
+        <p>დააჭირე გვერდის კუთხეს, ისრებს ან მობილურზე გადაუსვი თითი.</p>
       </div>
-      <div class="dots" id="dots"></div>
+
+      <div class="book-controls top-controls">
+        <button class="small-btn" id="firstPage" type="button">დასაწყისი</button>
+        <div class="spread-count" id="spreadCount">ყდა</div>
+        <button class="small-btn" id="lastPage" type="button">დასასრული</button>
+      </div>
+
+      <div class="book-stage">
+        <button class="arrow left" id="prev" type="button" aria-label="წინა გვერდი">‹</button>
+
+        <div class="real-book" id="book" aria-label="ზღაპრის გადაფურცვლის ნიმუში">
+          <div class="book-shadow"></div>
+
+          <div class="page-static page-left">
+            <img id="leftPageImage" src="assets/story/page-01.webp" alt="ზღაპრის მარცხენა გვერდი">
+          </div>
+
+          <div class="book-spine"></div>
+
+          <div class="page-static page-right">
+            <img id="rightPageImage" src="assets/story/page-02.webp" alt="ზღაპრის მარჯვენა გვერდი">
+          </div>
+
+          <div class="flipping-page" id="flippingPage" aria-hidden="true">
+            <div class="flip-face flip-front"><img id="flipFrontImage" src="assets/story/page-02.webp" alt=""></div>
+            <div class="flip-face flip-back"><img id="flipBackImage" src="assets/story/page-03.webp" alt=""></div>
+          </div>
+        </div>
+
+        <button class="arrow right" id="next" type="button" aria-label="შემდეგი გვერდი">›</button>
+      </div>
+
+      <div class="book-controls">
+        <button class="btn primary" id="prevBottom" type="button">‹ წინა</button>
+        <button class="btn primary" id="nextBottom" type="button">შემდეგი ›</button>
+      </div>
     </section>
+
     <section class="section packages">
-      <div class="package"><h3>ზღაპარი</h3><div class="price">59₾</div><p>ინდივიდუალურად შექმნილი პერსონალიზირებული ზღაპარი ბავშვის სახელით და სასურველი თემით.</p></div>
-      <div class="package featured"><h3>სრული სასაჩუქრე ნაკრები</h3><div class="price">89₾</div><p>ზღაპარი, გასაფერადებელი, პერსონალური კალენდარი და ფლომასტერების ნაკრები — მზად საჩუქრად.</p></div>
+      <div class="package">
+        <h3>ზღაპარი</h3>
+        <div class="price">59₾</div>
+        <p>ინდივიდუალურად შექმნილი პერსონალიზირებული ზღაპარი ბავშვის სახელით და სასურველი თემით.</p>
+      </div>
+      <div class="package featured">
+        <h3>სრული სასაჩუქრე ნაკრები</h3>
+        <div class="price">89₾</div>
+        <p>ზღაპარი, გასაფერადებელი, პერსონალური კალენდარი და ფლომასტერების ნაკრები — მზად საჩუქრად.</p>
+      </div>
     </section>
-    <section class="section steps"><h2>როგორ მუშაობს?</h2><div class="step-grid"><div>1. გვწერთ Facebook-ზე</div><div>2. გვიგზავნით ბავშვის დეტალებს</div><div>3. ვქმნით პერსონალურ ზღაპარს</div><div>4. იღებთ მზა ჯადოსნურ საჩუქარს</div></div></section>
+
+    <section class="section steps">
+      <h2>როგორ მუშაობს?</h2>
+      <div class="step-grid">
+        <div>1. გვწერთ Facebook-ზე</div>
+        <div>2. გვიგზავნით ბავშვის დეტალებს</div>
+        <div>3. ვქმნით პერსონალურ ზღაპარს</div>
+        <div>4. იღებთ მზა ჯადოსნურ საჩუქარს</div>
+      </div>
+    </section>
   </main>
-  <footer><div>© ზღაპარიყო</div><a href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">დაგვიკავშირდით Facebook-ზე</a></footer>
+
+  <footer>
+    <div>© ზღაპარიყო</div>
+    <a href="https://www.facebook.com/profile.php?id=100088357453621" target="_blank" rel="noopener">დაგვიკავშირდით Facebook-ზე</a>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
